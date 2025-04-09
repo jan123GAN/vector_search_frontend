@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, NavLink } from "react-router-dom";
+import { Link, useLocation, NavLink, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Bell, Search, Home, Users, Info, Menu, Mail, X } from "lucide-react";
 
@@ -16,9 +16,11 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   const location = useLocation();
+  const navigate = useNavigate();
+
   const handleLogout = () => {
-    localStorage.removeItem('isLoggedIn');
     navigate('/login');
+    localStorage.removeItem('isLoggedIn');
   };
 
   const handleNavigation = () => {
@@ -71,8 +73,8 @@ const Navbar = () => {
               <Search className="h-5 w-5" />
             </Button>
             {isLoggedIn ? (
-              <Button asChild onClick={handleLogout}>
-                <Link to="/logout">Logout</Link>
+              <Button onClick={handleLogout}>
+                Logout
               </Button>
             ) : (
               <>
@@ -115,8 +117,8 @@ const Navbar = () => {
 
             <div className="flex flex-col gap-2 mt-4">
               {isLoggedIn ? (
-                <Button asChild onClick={handleLogout}>
-                  <Link to="/logout">Logout</Link>
+                <Button onClick={handleLogout}>
+                  Logout
                 </Button>
               ) : (
                 <>

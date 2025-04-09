@@ -11,10 +11,17 @@ import Navbar from '@/component/navbar';
 import Footer from './component/footer';
 import ReadDocs from './pages/read-docs';
 import ContactForm from './component/contact';
-const isLoggedIn = () => localStorage.getItem('isLoggedIn') === 'true';
+
+const isLoggedIn = () => {
+  const loginState = localStorage.getItem('isLoggedIn') === 'true';
+  if (!loginState) {
+    return false;
+  }
+  return true;
+};
 
 const ProtectedRoute = ({ children }) => {
-  return isLoggedIn() ? children : <Navigate to="/login" />;
+  return isLoggedIn() ? children : <Navigate to="/login" replace />;
 };
 
 function App() {
