@@ -5,7 +5,7 @@ import { Bell, Search, Home, Users, Info, Menu, Mail, X } from "lucide-react";
 
 
 const navigation = [
-  { name: "Home", href: "/", icon: Home },
+  { name: "Home", href: "/", icon: Home, requiresGuest: true },
   { name: "Vector Search", href: "/search", icon: Search },
   { name: "About", href: "/about", icon: Info },
   { name: "Contact", href: "/contact", icon: Mail },
@@ -46,7 +46,9 @@ const Navbar = () => {
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex space-x-6">
-            {navigation.map((item) => (
+            {navigation
+              .filter(item => !item.requiresGuest || !isLoggedIn)
+              .map((item) => (
               <NavLink
                 key={item.name}
                 to={item.href}
@@ -97,7 +99,9 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden px-4 pb-4 border-t border-border/40 bg-background/95">
           <nav className="flex flex-col gap-4 mt-4">
-            {navigation.map((item) => (
+            {navigation
+              .filter(item => !item.requiresGuest || !isLoggedIn)
+              .map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
