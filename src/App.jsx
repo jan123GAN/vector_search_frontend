@@ -29,7 +29,7 @@ function App() {
     <>
       <Navbar />
       <Routes>
-        {/* Redirect to /search if logged in */}
+        {/* Only show Home route if not logged in */}
         <Route path="/" element={isLoggedIn() ? <Navigate to="/search" /> : <HeroSection />} />
         
         <Route path="/about" element={<About />} />
