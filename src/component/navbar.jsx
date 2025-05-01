@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, NavLink, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Bell, Search, Home, Users, Info, Menu, Mail, X } from "lucide-react";
-
+import { Bell, Search, Home, Users, Info, Menu, Mail, X, FileText, Lock } from "lucide-react";
 
 const navigation = [
   { name: "Home", href: "/", icon: Home, requiresGuest: true },
   { name: "Vector Search", href: "/search", icon: Search },
   { name: "About", href: "/about", icon: Info },
+  { name: "Privacy", href: "/privacy", icon: Lock, requiresGuest: true },
+  { name: "Docs", href: "/doc", icon: FileText },
   { name: "Contact", href: "/contact", icon: Mail },
 ];
 
@@ -69,9 +70,7 @@ const Navbar = () => {
 
           {/* Auth & Search */}
           <div className="hidden md:flex items-center gap-3">
-            <Button variant="ghost" size="icon">
-              <Search className="h-5 w-5" />
-            </Button>
+           
             {isLoggedIn ? (
               <Button onClick={handleLogout}>
                 Logout

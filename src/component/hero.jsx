@@ -3,12 +3,12 @@ import { ArrowRight } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="py-24 relative overflow-hidden bg-black text-white">
-      <div className="container relative z-10 mx-auto px-4">
+    <section className="py-24 h-[95vh]  relative overflow-hidden bg-black text-white">
+      <div className="container relative z-10 mt-20 mx-auto px-4">
         <div className="text-center space-y-6 max-w-4xl mx-auto">
          
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight leading-tight">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-600">
+            <span className="bg-clip-text mt-6 text-transparent bg-gradient-to-r from-cyan-400 to-blue-600">
               Vector Search Engine
             </span>
           </h1>
@@ -17,14 +17,14 @@ const HeroSection = () => {
           </p>
           <div className="flex flex-wrap gap-4 justify-center pt-6">
             <a
-              href="/get-started"
+              href="/login"
               className="h-12 px-6 text-base inline-flex items-center justify-center bg-white text-black rounded-md hover:bg-white-700 transition-all"
             >
               Get Started
               <ArrowRight className="ml-2 h-5 w-5" />
             </a>
             <a
-              href="/docs"
+              href="/doc"
               className="h-12 px-6 text-base inline-flex items-center justify-center border-2 border-white text-white rounded-md hover:bg-blue-900/20  transition-all"
             >
               Read Docs

@@ -14,7 +14,7 @@ async function searchDocuments(query) {
       const error = await response.json();
       throw new Error(error.message || 'Search failed');
     }
-
+   
     return await response.json();
   } catch (error) {
     console.error('Search error:', error);

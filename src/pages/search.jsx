@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { searchDocuments, addDocument } from '@/lib/api';
-import { Loader2, AlertCircle } from 'lucide-react';
+import { Loader2, AlertCircle, CheckCircle } from 'lucide-react';
 
 export default function Search() {
   const [searchQuery, setSearchQuery] = useState('');
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -21,7 +22,7 @@ export default function Search() {
 
     try {
       const response = await searchDocuments(searchQuery);
-      console.log('Search response:', response); // Debug log
+  
       
       if (!response || !response.results || response.results.length === 0) {
         setError('No matching documents found. Try different keywords or add new documents.');
@@ -47,20 +48,22 @@ export default function Search() {
 
     if (!title.trim() || !content.trim()) {
       setError('Both title and content are required');
+      setSuccessMessage(null);
       return;
     }
 
     setIsLoading(true);
     setError(null);
+    setSuccessMessage(null);
 
     try {
       await addDocument(title, content);
       e.target.reset();
       setError(null);
-      // Show success message
-      alert('Document added successfully!');
+      setSuccessMessage('Document added successfully!');
     } catch (err) {
       setError('Failed to add document: ' + err.message);
+      setSuccessMessage(null);
     } finally {
       setIsLoading(false);
     }
@@ -137,6 +140,14 @@ export default function Search() {
           </div>
         )}
 
+        {/* Success Message */}
+        {successMessage && (
+          <div className="flex items-center gap-2 text-green-500 bg-green-500/10 px-4 py-2 rounded-lg">
+            <CheckCircle className="h-5 w-5" />
+            <span>{successMessage}</span>
+          </div>
+        )}
+
         {/* Search Results */}
         {results.length > 0 && (
           <div className="w-full max-w-4xl mt-8">
@@ -147,7 +158,8 @@ export default function Search() {
                   <h3 className="font-medium mb-2">{doc.title}</h3>
                   <p className="text-sm text-muted-foreground">{doc.content}</p>
                   <div className="text-xs text-muted-foreground mt-2">
-                    Similarity: {(doc.similarity * 100).toFixed(1)}%
+
+                    Similarity: {(doc.score * 100).toFixed(1)}%
                   </div>
                 </div>
               ))}

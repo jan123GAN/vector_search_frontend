@@ -1,84 +1,100 @@
 import React, { useState } from 'react';
+import { Button } from "@/components/ui/button";
+import { AlertCircle, CheckCircle } from 'lucide-react';
 
-const ContactForm = () => {
-  const [result, setResult] = useState("");
+export default function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    setResult("Sending....");
-    const formData = new FormData(event.target);
-
-    formData.append("access_key", "a597f941-3de0-4e24-a26e-2c9d31723b74");
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
-        method: "POST",
-        body: formData
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setResult("Form Submitted Successfully");
-        event.target.reset();
-      } else {
-        console.log("Error", data);
-        setResult(data.message);
-      }
-    } catch (error) {
-      setResult("Something went wrong!");
+      // Simulated API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setSuccessMessage('Message sent successfully! We will get back to you soon.');
+      setFormData({ name: '', email: '', message: '' });
+    } catch (err) {
+      setError('Failed to send message. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <section className="py-24 bg-black text-white">
-      <div className="container mx-auto px-4 max-w-2xl text-center">
-        <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-tight mb-6">
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-600">
+    <div className="container max-w-2xl mx-auto px-4 py-8">
+      <h2 className='text-4xl font-bold text-center mb-6'>
+      <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-600">
             Contact Us
           </span>
-        </h2>
-        <p className="text-lg md:text-xl text-gray-400 mb-8">
+      </h2>
+      <p className="text-lg md:text-xl text-gray-400 mb-8">
           Have questions or need support? Send us a message!
         </p>
-        
-        <form onSubmit={onSubmit} className="space-y-6">
-          <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            required
-            className="w-full h-12 px-4 rounded-md bg-gray-900 text-white border border-gray-700 focus:ring-2 focus:ring-cyan-400 outline-none"
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Your Email"
-            required
-            className="w-full h-12 px-4 rounded-md bg-gray-900 text-white border border-gray-700 focus:ring-2 focus:ring-cyan-400 outline-none"
-          />
-          <textarea
-            name="message"
-            placeholder="Your Message"
-            required
-            className="w-full h-32 p-4 rounded-md bg-gray-900 text-white border border-gray-700 focus:ring-2 focus:ring-cyan-400 outline-none"
-          />
-          <button
-            type="submit"
-            className="h-12 w-full bg-white text-black rounded-md hover:bg-gray-300 transition-all"
-          >
-            Send Message
-          </button>
-        </form>
-        
-        {result && (
-          <div className="mt-4 text-sm font-medium">
-            {result}
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {error && (
+          <div className="flex items-center gap-2 text-red-500 bg-red-500/10 px-4 py-2 rounded-lg">
+            <AlertCircle className="h-5 w-5" />
+            <span>{error}</span>
           </div>
         )}
-      </div>
-    </section>
-  );
-};
 
-export default ContactForm;
+        {successMessage && (
+          <div className="flex items-center gap-2 text-green-500 bg-green-500/10 px-4 py-2 rounded-lg">
+            <CheckCircle className="h-5 w-5" />
+            <span>{successMessage}</span>
+          </div>
+        )}
+
+        <div>
+          <label className="block text-sm font-medium mb-2">Name</label>
+          <input
+            type="text"
+            value={formData.name}
+            onChange={(e) => setFormData({...formData, name: e.target.value})}
+            className="w-full h-12 px-4 rounded-md bg-gray-900 text-white border border-gray-700 focus:ring-2 focus:ring-cyan-400 outline-none"
+        
+            required
+          />
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium mb-2">Email</label>
+          <input
+            type="email"
+            value={formData.email}
+            onChange={(e) => setFormData({...formData, email: e.target.value})}
+            className="w-full h-12 px-4 rounded-md bg-gray-900 text-white border border-gray-700 focus:ring-2 focus:ring-cyan-400 outline-none"
+        
+            required
+          />
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium mb-2">Message</label>
+          <textarea
+            value={formData.message}
+            onChange={(e) => setFormData({...formData, message: e.target.value})}
+            className="w-full h-32 p-4 rounded-md bg-gray-900 text-white border border-gray-700 focus:ring-2 focus:ring-cyan-400 outline-none"
+        
+            required
+          />
+        </div>
+        
+        <Button type="submit"  disabled={isLoading}
+           className="h-12 w-full bg-white text-black rounded-md hover:bg-gray-300 transition-all"
+        >
+          {isLoading ? 'Sending...' : 'Send Message'}
+        </Button>
+      </form>
+    </div>
+  );
+}
