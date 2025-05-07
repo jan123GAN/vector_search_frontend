@@ -40,7 +40,7 @@ export default function Login() {
         <div className="flex flex-col space-y-2 text-center">
         <h2 className='text-4xl font-bold text-center mb-6'>
       <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-600">
-            Welcoome Back
+            Welcome Back
           </span>
       </h2>
           <p className="text-sm text-muted-foreground">
